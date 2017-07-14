@@ -288,7 +288,7 @@ public class FirstActivity extends AppCompatActivity {
             ////////////////////////////////////////////////////////////
             ///////////////////////////////////////////////////////////
             //FIX THIS BEFORE SUBMISSION//////////////////////////////
-            // Get the path from the Uri
+            // Get the path from the Uri with non Xiaomi devices
 //                String path = getPathFromURI(selectedImage);
 
             //Xiaomi specific code here
@@ -297,7 +297,6 @@ public class FirstActivity extends AppCompatActivity {
 
 
             // Set the image in ImageView
-            // imgView.setImageURI(selectedImage);
 
             try {
                 bmp = getBitmapFromUri(selectedImage);
