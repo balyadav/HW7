@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package edu.cmu.hw7byadav.camera;
 
 import android.content.Context;
@@ -8,9 +23,7 @@ import android.view.View;
 import com.google.android.gms.vision.CameraSource;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 /**
  * A view which renders a series of custom graphics to be overlayed on top of an associated preview
@@ -38,6 +51,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
     private float mHeightScaleFactor = 1.0f;
     private int mFacing = CameraSource.CAMERA_FACING_BACK;
     private Set<T> mGraphics = new HashSet<>();
+    private T mFirstGraphic;
 
     /**
      * Base class for a custom graphics object to be rendered within the graphic overlay.  Subclass
@@ -115,6 +129,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
     public void clear() {
         synchronized (mLock) {
             mGraphics.clear();
+            mFirstGraphic = null;
         }
         postInvalidate();
     }
@@ -125,6 +140,9 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
     public void add(T graphic) {
         synchronized (mLock) {
             mGraphics.add(graphic);
+            if (mFirstGraphic == null) {
+                mFirstGraphic = graphic;
+            }
         }
         postInvalidate();
     }
@@ -135,32 +153,22 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View {
     public void remove(T graphic) {
         synchronized (mLock) {
             mGraphics.remove(graphic);
+            if (mFirstGraphic != null && mFirstGraphic.equals(graphic)) {
+                mFirstGraphic = null;
+            }
         }
         postInvalidate();
     }
 
     /**
-     * Returns a copy (as a list) of the set of all active graphics.
-     * @return list of all active graphics.
+     * Returns the first (oldest) graphic added.  This is used
+     * to get the barcode that was detected first.
+     * @return graphic containing the barcode, or null if no barcodes are detected.
      */
-    public List<T> getGraphics() {
+    public T getFirstGraphic() {
         synchronized (mLock) {
-            return new Vector(mGraphics);
+            return mFirstGraphic;
         }
-    }
-
-    /**
-     * Returns the horizontal scale factor.
-     */
-    public float getWidthScaleFactor() {
-        return mWidthScaleFactor;
-    }
-
-    /**
-     * Returns the vertical scale factor.
-     */
-    public float getHeightScaleFactor() {
-        return mHeightScaleFactor;
     }
 
     /**

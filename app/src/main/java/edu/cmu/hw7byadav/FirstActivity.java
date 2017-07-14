@@ -87,6 +87,7 @@ public class FirstActivity extends AppCompatActivity {
     private Button btnTweet;
     private Button btnFind;
     private Button btnTakePhoto;
+    private TextView faceDetectionResult;
     File f2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class FirstActivity extends AppCompatActivity {
         btnTweet = (Button) findViewById(R.id.tweet);
         btnTakePhoto = (Button) findViewById(R.id.take_photo);
         imgView = (ImageView)findViewById(R.id.imgview);
+        faceDetectionResult = (TextView)findViewById(R.id.face_detection_result);
         btnFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +110,10 @@ public class FirstActivity extends AppCompatActivity {
         btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(faceDetectionResult.getText().length() == 0){
+                    Toast.makeText(FirstActivity.this, "Can't tweet empty! Pick photo first!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 sendOutTweet();
             }
         });
@@ -143,7 +149,7 @@ public class FirstActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.second_activity){
-            Intent intent = new Intent(FirstActivity.this, BarcodeCaptureActivity.class);
+            Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
             startActivity(intent);
             return true;
         }
@@ -342,7 +348,6 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     private void displayDetectionText(int numberOfFacesDetected, int numberOfSmileyFacesDetected){
-        TextView faceDetectionResult = (TextView) findViewById(R.id.face_detection_result);
         faceDetectionResult.setText(
                 getString(R.string.face_detection_result, numberOfFacesDetected, numberOfSmileyFacesDetected));
     }
@@ -369,10 +374,8 @@ public class FirstActivity extends AppCompatActivity {
 
             AccessToken accessToken = new AccessToken(pref.getString("ACCESS_TOKEN", ""), pref.getString("ACCESS_TOKEN_SECRET", ""));
             twitter4j.Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm:aa");
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd HH:mm aa");
             String currentDateTime = sdf.format(new Date());
-//            String currentDateTime = "Jun 23, 2017 01:40";
-//            String status = "Check In:" + currentDateTime + " http://www.pvgp.org";
             String status = "@08723Mapp byadav " +
                     numberOfFacesDetected + " face detected / " +
                     numberOfSmileyFacesDetected + " smiley face detected at " + currentDateTime.toString();

@@ -16,4 +16,6 @@
     <string name="barcode_success">Barcode read successfully</string>
     <string name="barcode_failure">No barcode captured</string>
     <string name="barcode_error">"Error reading barcode: %1$s"</string>
+    <string name="empty_tweet_face_detection">Can\'t tweet empty! Pick photo first!</string>
+    <string name="empty_tweet_qr_code">Can\'t tweet empty! Scan QR code first!</string>
 </resources>
