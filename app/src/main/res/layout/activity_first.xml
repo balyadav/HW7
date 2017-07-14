@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="edu.cmu.hw7byadav.FirstActivity">
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_weight="0.1"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:id="@+id/find_photo"
+                android:text="Find Photo"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:id="@+id/take_photo"
+                android:text="take photo"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:id="@+id/face_detection_result" />
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:text="@string/tweet"
+                android:id="@+id/tweet"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.9">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgview"/>
+
+        </LinearLayout>
+    </LinearLayout>
